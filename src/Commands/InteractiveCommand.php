@@ -100,15 +100,18 @@ class InteractiveCommand extends Command
     {
         $return = [];
         $appCommand = $this->resolveCommand($signature);
-        $arguments = $appCommand->getArguments();
 
-        if ($arguments ?? []) {
-            $this->info('The below arguments are taken from the command, they may or many not be optional depending on the command you are running.');
+        if (method_exists($appCommand, 'getArguments')) {
+            $arguments = $appCommand->getArguments();
 
-            foreach ($arguments as $argument) {
-                $value = $this->ask($argument[2], '');
-                if ($value) {
-                    $return[$argument[0]] = $value;
+            if ($arguments ?? []) {
+                $this->info('The below arguments are taken from the command, they may or many not be optional depending on the command you are running.');
+
+                foreach ($arguments as $argument) {
+                    $value = $this->ask($argument[2], '');
+                    if ($value) {
+                        $return[$argument[0]] = $value;
+                    }
                 }
             }
         }
@@ -126,23 +129,26 @@ class InteractiveCommand extends Command
     {
         $return = [];
         $appCommand = $this->resolveCommand($signature);
-        $options = $appCommand->getOptions();
 
-        if ($options) {
-            $this->info('For example, you could enter -m when making a model to create a migration.');
-            $this->info('Or --queue=somequeuename if running a queue related command.');
+        if (method_exists($appCommand, 'getOptions')) {
+            $options = $appCommand->getOptions();
 
-            $value = $this->ask('Enter any command options', '');
-            $options = explode(' ', $value);
+            if ($options) {
+                $this->info('For example, you could enter -m when making a model to create a migration.');
+                $this->info('Or --queue=somequeuename if running a queue related command.');
 
-            foreach ($options as $option) {
-                $optionValue = explode('=', $option);
+                $value = $this->ask('Enter any command options', '');
+                $options = explode(' ', $value);
 
-                if ($optionValue[0]) {
-                    if (count($options) === 1) {
-                        $return[$optionValue[0]] = 1;
-                    } else {
-                        $return[$optionValue[0]] = $optionValue[1];
+                foreach ($options as $option) {
+                    $optionValue = explode('=', $option);
+
+                    if ($optionValue[0]) {
+                        if (count($options) === 1) {
+                            $return[$optionValue[0]] = 1;
+                        } else {
+                            $return[$optionValue[0]] = $optionValue[1];
+                        }
                     }
                 }
             }
