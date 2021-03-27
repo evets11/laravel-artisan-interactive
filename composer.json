@@ -1,6 +1,7 @@
 {
     "name": "evets11/laravel-artisan-interactive",
     "description": "Interactive Laravel Artisan command",
+    "license": "MIT",
     "authors": [
         {
             "name": "Steve White",
