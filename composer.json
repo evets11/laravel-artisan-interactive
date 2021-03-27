@@ -1,0 +1,24 @@
+{
+    "name": "evets11/laravel-artisan-interactive",
+    "description": "Interactive Laravel Artisan command",
+    "authors": [
+        {
+            "name": "Steve White",
+            "email": "steve@getcrisp.co.uk"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+          "Evets11\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Evets11\\InteractiveServiceProvider"
+            ]
+        }
+    }
+}
